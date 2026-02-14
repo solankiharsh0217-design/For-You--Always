@@ -3,7 +3,9 @@ import { useRef, useState, memo, useEffect } from "react";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 import { MusicPlayer } from "@/components/MusicPlayer";
-import { Heart, Sparkles, ArrowRight } from "lucide-react";
+import { Heart, Sparkles, ArrowRight, Loader2 } from "lucide-react";
+import { useStory } from "@/hooks/use-story";
+import { type StorySegment } from "@shared/schema";
 
 // Memoized decorative sparkle component
 const DecorativeSparkle = memo(({ delay, left, top }: { delay: number; left: string; top: string }) => (
@@ -32,7 +34,7 @@ const StorySection = memo(({
   index,
   total,
 }: {
-  item: any;
+  item: StorySegment;
   index: number;
   total: number;
 }) => {
@@ -207,6 +209,7 @@ const StorySection = memo(({
 StorySection.displayName = "StorySection";
 
 export default function Story() {
+  const { data: story, isLoading } = useStory();
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, amount: 0.3 });
 
@@ -215,8 +218,16 @@ export default function Story() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-rose-50">
+        <Loader2 className="w-10 h-10 text-pink-400 animate-spin" />
+      </div>
+    );
+  }
+
   // Placeholder story data
-  const sortedStory = [
+  const defaultStory = [
     {
       id: 1,
       title: "The First Glance",
@@ -239,6 +250,10 @@ export default function Story() {
       order: 3
     },
   ];
+
+  const sortedStory = (story && story.length > 0)
+    ? [...story].sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0))
+    : defaultStory;
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 overflow-hidden">

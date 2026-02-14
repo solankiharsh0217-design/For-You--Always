@@ -1,10 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Memory, InsertMemory } from "@/types/memory";
+import { type Memory, type InsertMemory } from "@shared/schema";
 
 const STORAGE_KEY = "memories";
 
 function getMemories(): Memory[] {
-  return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
 }
 
 function saveMemories(memories: Memory[]) {
@@ -27,8 +31,7 @@ export function useCreateMemory() {
     mutationFn: async (data: InsertMemory) => {
       const newMemory: Memory = {
         id: crypto.randomUUID(),
-        text: data.text,
-        createdAt: new Date().toISOString(),
+        ...data
       };
 
       const memories = getMemories();

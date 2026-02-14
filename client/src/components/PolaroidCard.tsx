@@ -8,7 +8,11 @@ interface PolaroidCardProps {
 
 export function PolaroidCard({ memory, index }: PolaroidCardProps) {
   // Generate stable random rotation based on ID if not provided
-  const rotation = memory.rotation || (memory.id % 10) - 5; 
+  const rotation = memory.rotation ?? (
+    typeof memory.id === 'number' 
+      ? (memory.id % 10) - 5 
+      : (memory.id.charCodeAt(memory.id.length - 1) % 10) - 5
+  ); 
 
   return (
     <motion.div
