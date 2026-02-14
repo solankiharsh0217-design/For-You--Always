@@ -60,14 +60,14 @@ export default function FinalNote() {
   const { data: config, isLoading } = useConfig();
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const { name } = usePartner();
+  const { name, message, signature } = usePartner();
 
   // Instant scroll reset
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  const fullText = "Loving you is not something I do—it's who I am. In every breath, every silence, every tomorrow, it's you. Happy Valentine's Day to the one my heart chose long before I ever understood love.";
+  const fullText = message || "Loving you is not something I do—it's who I am. In every breath, every silence, every tomorrow, it's you. Happy Valentine's Day to the one my heart chose long before I ever understood love.";
 
   // Optimized typing effect
   useEffect(() => {
@@ -211,7 +211,7 @@ export default function FinalNote() {
               </div>
 
               <p className="font-handwriting text-xl sm:text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">
-                Forever Yours
+                {signature || "Forever Yours"}
               </p>
 
               <motion.div

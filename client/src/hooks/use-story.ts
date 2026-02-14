@@ -1,22 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-/* =========================
-   Types (frontend-only)
-========================= */
-
-export type StorySegment = {
-  id: string;
-  text: string;
-  createdAt: string;
-};
-
-export type InsertStory = {
-  text: string;
-};
-
-/* =========================
-   Local Storage helpers
-========================= */
+import { type StorySegment, type InsertStory } from "@shared/schema";
 
 const STORAGE_KEY = "story";
 
@@ -31,10 +14,6 @@ function getStory(): StorySegment[] {
 function saveStory(story: StorySegment[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(story));
 }
-
-/* =========================
-   Hooks
-========================= */
 
 export function useStory() {
   return useQuery({
@@ -52,8 +31,7 @@ export function useCreateStorySegment() {
     mutationFn: async (data: InsertStory) => {
       const newSegment: StorySegment = {
         id: crypto.randomUUID(),
-        text: data.text,
-        createdAt: new Date().toISOString(),
+        ...data
       };
 
       const story = getStory();

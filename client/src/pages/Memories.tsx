@@ -4,6 +4,7 @@ import { Loader2, Heart, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { useEffect, memo } from "react";
+import { type Memory } from "@shared/schema";
 
 // Memoized loading spinner
 const LoadingSpinner = memo(() => (
@@ -73,7 +74,7 @@ export default function Memories() {
   }
 
   // Placeholder data if empty
-  const displayMemories = (memories && memories.length > 0) ? memories : [
+  const displayMemories: Memory[] = (memories && memories.length > 0) ? memories : [
     {
       id: 1,
       url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&q=80",
@@ -122,7 +123,7 @@ export default function Memories() {
       date: "Every Weekend",
       rotation: -3
     }
-  ];
+  ] as Memory[];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 relative overflow-hidden">

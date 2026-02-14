@@ -14,7 +14,7 @@ interface AudioContextType {
 
 const AudioContext = createContext<AudioContextType | null>(null);
 
-const DEFAULT_AUDIO_SRC = "/Dooron_Dooron.webm";
+const DEFAULT_AUDIO_SRC = "/kesariya.mp3";
 
 export function AudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -28,6 +28,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     audio.addEventListener("play", () => setIsPlaying(true));
     audio.addEventListener("pause", () => setIsPlaying(false));
+    audio.addEventListener("ended", () => {
+      audio.currentTime = 0;
+      audio.play().catch(console.error);
+    });
 
     audioRef.current = audio;
 
