@@ -28,6 +28,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     audio.addEventListener("play", () => setIsPlaying(true));
     audio.addEventListener("pause", () => setIsPlaying(false));
+    audio.addEventListener("ended", () => {
+      audio.currentTime = 0;
+      audio.play().catch(console.error);
+    });
 
     audioRef.current = audio;
 
