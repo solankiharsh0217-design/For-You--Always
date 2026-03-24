@@ -22,7 +22,14 @@ import NotFound from "@/pages/not-found";
 import { MusicPlayer } from "./components/MusicPlayer";
 
 function AnimatedRoutes() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (window.location.pathname !== "/") {
+      setLocation("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
