@@ -6,58 +6,66 @@ import { Gift, Heart, Sparkles, Star } from "lucide-react";
 
 export default function Surprise() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
   const [isEnvelopeHovered, setIsEnvelopeHovered] = useState(false);
 
   const handleOpen = () => {
-    if (isOpen) return;
-    setIsOpen(true);
+    if (isOpening || isOpen) return;
+    setIsOpening(true);
     
-    // Enhanced confetti celebration
-    const duration = 4000;
-    const end = Date.now() + duration;
-    const colors = ['#ffc0cb', '#ff69b4', '#ff1493', '#ff85a1', '#ffb3c6'];
+    // Enhanced confetti celebration matching the slide-out climax
+    setTimeout(() => {
+      const duration = 4000;
+      const end = Date.now() + duration;
+      const colors = ["#ffc0cb", "#ff69b4", "#ff1493", "#ff85a1", "#ffb3c6"];
 
-    (function frame() {
-      // Left side confetti
-      confetti({
-        particleCount: 7,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0, y: 0.6 },
-        colors: colors,
-        shapes: ['circle', 'square'],
-        scalar: 1.2,
-      });
-      
-      // Right side confetti
-      confetti({
-        particleCount: 7,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1, y: 0.6 },
-        colors: colors,
-        shapes: ['circle', 'square'],
-        scalar: 1.2,
-      });
-      
-      // Center burst
-      confetti({
-        particleCount: 3,
-        angle: 90,
-        spread: 100,
-        origin: { x: 0.5, y: 0.5 },
-        colors: colors,
-        shapes: ['star'],
-        scalar: 1.5,
-      });
+      (function frame() {
+        // Left side confetti
+        confetti({
+          particleCount: 8,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0, y: 0.6 },
+          colors: colors,
+          shapes: ["circle", "square"],
+          scalar: 1.2,
+        });
+        
+        // Right side confetti
+        confetti({
+          particleCount: 8,
+          angle: 120,
+          spread: 60,
+          origin: { x: 1, y: 0.6 },
+          colors: colors,
+          shapes: ["circle", "square"],
+          scalar: 1.2,
+        });
+        
+        // Center burst
+        confetti({
+          particleCount: 4,
+          angle: 90,
+          spread: 100,
+          origin: { x: 0.5, y: 0.45 },
+          colors: colors,
+          shapes: ["star"],
+          scalar: 1.5,
+        });
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    })();
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }, 750);
+
+    // Cleanly transition to full screen content after extraction
+    setTimeout(() => {
+      setIsOpen(true);
+    }, 1800);
   };
 
-  const surpriseText = "You are the best gift I could ever ask for. Get ready for a special dinner tonight!";
+  const surpriseText = "Building this was my way of putting in real effort to show how much your smile and presence mean to me. You deserve to be celebrated in a special way. Thank you for being such an amazing part of my life! ♡";
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
@@ -114,8 +122,8 @@ export default function Surprise() {
             key={`heart-${i}`}
             className="absolute"
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: window.innerHeight + 100,
+              x: typeof window !== "undefined" ? Math.random() * window.innerWidth : 200,
+              y: typeof window !== "undefined" ? window.innerHeight + 100 : 800,
             }}
             animate={{
               y: -200,
@@ -134,152 +142,146 @@ export default function Surprise() {
         ))}
       </div>
 
-      <div className="w-full max-w-lg relative z-10" style={{ perspective: "1000px" }}>
+      <div className="w-full max-w-lg relative z-10" style={{ perspective: "1200px" }}>
         <AnimatePresence mode="wait">
           {!isOpen ? (
             <motion.div
               key="envelope"
-              initial={{ scale: 0.8, opacity: 0, rotateY: -20 }}
+              initial={{ scale: 0.8, opacity: 0, rotateY: -15 }}
               animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-              exit={{ scale: 1.2, opacity: 0, rotateY: 20 }}
+              exit={{ scale: 1.15, opacity: 0, rotateY: 15 }}
               transition={{ duration: 0.6 }}
               onClick={handleOpen}
               onHoverStart={() => setIsEnvelopeHovered(true)}
               onHoverEnd={() => setIsEnvelopeHovered(false)}
-              className="cursor-pointer group mx-auto relative"
+              className="cursor-pointer group mx-auto relative max-w-sm w-full"
             >
-              {/* Glow effect */}
+              {/* Soft ambient back-glow */}
               <motion.div
                 animate={{
-                  opacity: isEnvelopeHovered ? [0.3, 0.6, 0.3] : 0.2,
-                  scale: isEnvelopeHovered ? [1, 1.2, 1] : 1,
+                  opacity: isEnvelopeHovered ? [0.3, 0.5, 0.3] : 0.2,
+                  scale: isEnvelopeHovered ? [1, 1.15, 1] : 1,
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="absolute inset-0 -z-10 bg-gradient-to-br from-pink-400/30 to-rose-400/30 rounded-3xl blur-3xl"
               />
 
-              {/* Envelope container */}
-              <div className="relative w-full max-w-sm mx-auto">
+              {/* Envelope Physical Structure */}
+              <div 
+                className="relative w-full aspect-[4/3] pointer-events-auto"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {/* 1. Envelope Back Sleeve */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-200 to-rose-200 rounded-2xl shadow-xl border border-pink-100/50 z-0" />
+
+                {/* 2. Sliding Letter Card (physically layered inside the sleeve) */}
                 <motion.div
                   animate={{
-                    y: isEnvelopeHovered ? -10 : 0,
-                    rotateZ: isEnvelopeHovered ? -3 : 0,
+                    y: isOpening ? -180 : 15,
+                    scale: isOpening ? 1.02 : 0.93,
+                    rotateZ: isOpening ? 0 : (isEnvelopeHovered ? -1 : -2),
                   }}
-                  transition={{ duration: 0.3 }}
-                  className="relative w-full aspect-[4/3] bg-gradient-to-br from-pink-200 to-rose-200 rounded-2xl shadow-2xl overflow-hidden"
-                  style={{ transformStyle: "preserve-3d" }}
+                  transition={{ type: "spring", damping: 14, stiffness: 90 }}
+                  className="absolute inset-x-4 top-4 bottom-4 bg-white rounded-xl shadow-md border border-pink-100/50 p-6 z-10 flex flex-col justify-center items-center pointer-events-none select-none"
                 >
-                  {/* Envelope pattern */}
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0" style={{
-                      backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)`
-                    }} />
-                  </div>
+                  <Heart className="w-8 h-8 text-rose-500 fill-pink-100 mb-3 animate-pulse-slow" />
+                  <span className="font-handwriting text-rose-700 text-lg block">For Komal...</span>
+                  <div className="h-0.5 w-12 bg-pink-100 rounded-full mt-2" />
+                </motion.div>
 
-                  {/* Top Flap */}
+                {/* 3. Envelope Top Flap (Hinged at the top, folds open) */}
+                <motion.div
+                  animate={{
+                    rotateX: isOpening ? -180 : (isEnvelopeHovered ? -15 : 0),
+                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-pink-300 to-rose-300 shadow-md z-30"
+                  style={{
+                    clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                    transformOrigin: "top",
+                    transformStyle: "preserve-3d",
+                    backfaceVisibility: "hidden",
+                  }}
+                >
+                  {/* Flap inside liner */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
+                </motion.div>
+
+                {/* 4. Envelope Front Pocket (Clipped front z-20 sleeve) */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-tr from-pink-100 to-rose-100 rounded-2xl z-20 border border-white/20 shadow-inner"
+                  style={{
+                    clipPath: "polygon(0 100%, 0 35%, 50% 55%, 100% 35%, 100% 100%)"
+                  }}
+                />
+
+                {/* 5. Envelope Wax Seal Button (fades away on open trigger) */}
+                <motion.div
+                  animate={{
+                    opacity: isOpening ? 0 : 1,
+                    scale: isOpening ? 0.7 : (isEnvelopeHovered ? 1.05 : 1),
+                  }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/40"
+                >
+                  <Heart className="w-8 h-8 md:w-10 md:h-10 text-white fill-white relative z-10" />
+
+                  {/* Shimmer seal circles */}
                   <motion.div
                     animate={{
-                      rotateX: isEnvelopeHovered ? -15 : 0,
+                      opacity: [0.3, 0.8, 0.3],
+                      scale: [0.85, 1.05, 0.85],
                     }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-pink-300 to-rose-300 origin-bottom shadow-lg"
-                    style={{
-                      clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                      transformStyle: "preserve-3d",
-                    }}
-                  >
-                    {/* Flap decoration */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
-                  </motion.div>
-
-                  {/* Envelope Body */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-rose-100" />
-                  
-                  {/* Bottom decorative triangle */}
-                  <div
-                    className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-pink-200/50 to-transparent"
-                    style={{ clipPath: "polygon(0 100%, 50% 50%, 100% 100%)" }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute inset-1.5 bg-white/20 rounded-full"
                   />
 
-                  {/* Center content area */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    {/* Seal */}
+                  {/* Seal Sparkles */}
+                  {isEnvelopeHovered && !isOpening && [...Array(6)].map((_, i) => (
                     <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
                       animate={{
-                        scale: isEnvelopeHovered ? [1, 1.15, 1] : 1,
-                        rotate: isEnvelopeHovered ? [0, -5, 5, 0] : 0,
+                        opacity: [0, 1, 0],
+                        scale: [0, 1, 0],
+                        x: Math.cos((i * Math.PI) / 3) * 38,
+                        y: Math.sin((i * Math.PI) / 3) * 38,
                       }}
-                      transition={{ duration: 0.6 }}
-                      className="relative z-40 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/40"
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        delay: i * 0.1,
+                      }}
+                      className="absolute"
                     >
-                      {/* Inner glow */}
-                      <motion.div
-                        animate={{
-                          opacity: [0.5, 1, 0.5],
-                          scale: [0.8, 1, 0.8],
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute inset-2 bg-white/20 rounded-full"
-                      />
-                      
-                      <Heart className="w-8 h-8 md:w-10 md:h-10 text-white fill-white relative z-10" />
-
-                      {/* Sparkles around seal */}
-                      {isEnvelopeHovered && [...Array(6)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{
-                            opacity: [0, 1, 0],
-                            scale: [0, 1, 0],
-                            x: Math.cos((i * Math.PI) / 3) * 35,
-                            y: Math.sin((i * Math.PI) / 3) * 35,
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            delay: i * 0.1,
-                          }}
-                          className="absolute"
-                        >
-                          <Star className="w-3 h-3 text-yellow-300 fill-yellow-300" />
-                        </motion.div>
-                      ))}
+                      <Star className="w-3.5 h-3.5 text-yellow-300 fill-yellow-300" />
                     </motion.div>
-                  </div>
-
-                  {/* Corner decorations */}
-                  <div className="absolute top-3 right-3 opacity-20">
-                    <Sparkles className="w-5 h-5 text-rose-600" />
-                  </div>
-                  <div className="absolute bottom-3 left-3 opacity-20">
-                    <Sparkles className="w-5 h-5 text-pink-600" />
-                  </div>
-                </motion.div>
-
-                {/* Tap to open text */}
-                <motion.div
-                  animate={{
-                    y: [0, -10, 0],
-                    opacity: isEnvelopeHovered ? 1 : 0.7,
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="mt-8 text-center"
-                >
-                  <p className="font-handwriting text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600">
-                    Tap to reveal your surprise
-                  </p>
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="mt-2 flex justify-center"
-                  >
-                    <Heart className="w-4 h-4 text-pink-500 fill-pink-400" />
-                  </motion.div>
+                  ))}
                 </motion.div>
               </div>
+
+              {/* Tap to open text */}
+              <motion.div
+                animate={{
+                  y: isOpening ? 10 : [0, -8, 0],
+                  opacity: isOpening ? 0 : (isEnvelopeHovered ? 1 : 0.7),
+                }}
+                transition={{ duration: 2, repeat: isOpening ? 0 : Infinity }}
+                className="mt-8 text-center"
+              >
+                <p className="font-handwriting text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600">
+                  Tap seal to reveal your surprise
+                </p>
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="mt-2 flex justify-center"
+                >
+                  <Heart className="w-4 h-4 text-pink-500 fill-pink-400" />
+                </motion.div>
+              </motion.div>
             </motion.div>
           ) : (
             <motion.div
@@ -287,7 +289,7 @@ export default function Surprise() {
               initial={{ opacity: 0, scale: 0.5, y: 50, rotateY: -30 }}
               animate={{ opacity: 1, scale: 1, y: 0, rotateY: 0 }}
               transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
-              className="bg-white/95 backdrop-blur-xl p-6 md:p-12 rounded-3xl shadow-2xl border-2 border-pink-200/50 text-center relative overflow-hidden mx-4"
+              className="bg-white/95 backdrop-blur-xl p-6 md:p-12 rounded-3xl shadow-2xl border-2 border-pink-200/50 text-center relative overflow-hidden mx-4 cursor-default"
             >
               {/* Top gradient border */}
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 via-rose-500 to-purple-400" />
@@ -414,7 +416,7 @@ export default function Surprise() {
                   <motion.button
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group relative w-full px-6 py-4 bg-gradient-to-r from-pink-100 via-rose-100 to-purple-100 text-rose-700 rounded-2xl font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                    className="group relative w-full px-6 py-4 bg-gradient-to-r from-pink-100 via-rose-100 to-purple-100 text-rose-700 rounded-2xl font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer"
                   >
                     {/* Shimmer effect */}
                     <motion.div

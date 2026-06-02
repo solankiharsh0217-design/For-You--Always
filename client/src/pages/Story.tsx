@@ -230,23 +230,23 @@ export default function Story() {
   const defaultStory = [
     {
       id: 1,
-      title: "The First Glance",
-      content: "From the moment our eyes met, I knew there was something extraordinary about you. Time seemed to stand still, and in that instant, everything changed.",
-      imageUrl: "https://images.unsplash.com/photo-1627964464837-6328f5931576?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y291cGxlc3xlbnwwfHwwfHx8MA%3D%3D",
+      title: "A Wonderful Presence",
+      content: "Getting to know you has been one of the most beautiful experiences. Your energy, your kindness, and the way you bring warmth to every conversation is truly rare.",
+      imageUrl: "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=800&q=80",
       order: 1
     },
     {
       id: 2,
-      title: "Growing Closer",
-      content: "Every conversation, every shared laugh, every quiet moment together brought us closer. I found myself looking forward to seeing you, thinking about you constantly.",
-      imageUrl: "https://images.unsplash.com/photo-1501901609772-df0848060b33?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y291cGxlc3xlbnwwfHwwfHx8MA%3D%3D",
+      title: "The Little Conversations",
+      content: "It's the small, shared moments and simple conversations that make a huge difference. I really appreciate how genuine you are and how easy it is to talk to you about anything.",
+      imageUrl: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?w=800&q=80",
       order: 2
     },
     {
       id: 3,
-      title: "Falling Deeper",
-      content: "Somewhere along the way, friendship blossomed into something more. My heart would race at the sound of your voice, and your smile became my favorite sight.",
-      imageUrl: "https://images.unsplash.com/photo-1555689070-b25ef81cc3ea?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvdXBsZXN8ZW58MHx8MHx8fDA%3D",
+      title: "Celebrating You",
+      content: "I wanted to put in the effort to build this space for you because wonderful people deserve to be celebrated. I hope this brings a big smile to your face today.",
+      imageUrl: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=800&q=80",
       order: 3
     },
   ];
@@ -270,10 +270,7 @@ export default function Story() {
         className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] bg-gradient-to-r from-pink-300/20 to-purple-300/20 rounded-full blur-[100px] will-change-transform"
       />
 
-      {/* Music Player - Fixed position */}
-      <div className="fixed top-4 right-4 z-50">
-        <MusicPlayer />
-      </div>
+      {/* Global Music Player handled at App level */}
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -331,7 +328,7 @@ export default function Story() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 font-serif italic max-w-2xl mx-auto px-4"
             >
-              Every moment with you is a favorite memory waiting to be cherished forever.
+              A collection of moments, laughs, and the appreciation for a wonderful presence.
             </motion.p>
           </motion.div>
 
@@ -403,7 +400,7 @@ export default function Story() {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="font-handwriting text-lg sm:text-xl md:text-2xl mb-3 text-pink-600"
             >
-              But wait, there's more to our story...
+              There is more to share...
             </motion.p>
 
             <Link href="/memories">
@@ -442,7 +439,7 @@ export default function Story() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-xs sm:text-sm md:text-base text-gray-500 italic"
             >
-              Every picture tells a thousand words of love
+              Captured moments we've shared so far
             </motion.p>
           </div>
         </motion.div>

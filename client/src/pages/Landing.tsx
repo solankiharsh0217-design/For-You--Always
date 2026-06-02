@@ -179,7 +179,7 @@ export default function Landing() {
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            I've been carrying this in my heart for so long…
+            I built this special space just for you…
           </motion.span>
 
           <motion.div
@@ -206,6 +206,15 @@ export default function Landing() {
             </h1>
           </motion.div>
 
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
+            className="font-handwriting text-rose-500 text-sm sm:text-base md:text-lg mt-2"
+          >
+            May 18 • The day the world became a little brighter
+          </motion.p>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -213,11 +222,46 @@ export default function Landing() {
             className="space-y-2"
           >
             <p className="text-sm sm:text-base md:text-lg text-rose-700/80 font-light italic leading-relaxed px-4">
-              Every moment since you walked into my life,
+              Every conversation, every little moment,
               <br />
-              <span className="text-pink-600/90">the universe feels a little more magical.</span>
+              <span className="text-pink-600/90">reminds me of how wonderful you are.</span>
             </p>
           </motion.div>
+        </motion.div>
+
+        {/* Polaroid Centerpiece of Komal */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
+          animate={{ opacity: 1, scale: 1, rotate: -3 }}
+          transition={{ delay: 0.8, duration: 0.8, type: "spring", stiffness: 100 }}
+          whileHover={{ 
+            scale: 1.05, 
+            rotate: 0,
+            transition: { duration: 0.3 }
+          }}
+          className="relative bg-white p-3 pb-8 shadow-xl border border-pink-100 rounded-sm w-48 sm:w-56 mx-auto mb-2 pointer-events-auto cursor-pointer group"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {/* Tape Effect */}
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-pink-100/60 backdrop-blur-[1px] shadow-sm transform -rotate-2 skew-x-12 z-20 pointer-events-none" />
+
+          {/* Photo */}
+          <div className="aspect-[4/5] w-full overflow-hidden bg-pink-50 rounded-sm mb-3 border border-pink-50 relative">
+            <img 
+              src="/komal.jpg" 
+              alt="Komal" 
+              className="w-full h-full object-cover filter sepia-[.1] contrast-105 group-hover:sepia-0 transition-all duration-500"
+            />
+            {/* Vignette overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_60%,_rgba(244,114,182,0.05))]" />
+          </div>
+
+          {/* Caption */}
+          <div className="text-center">
+            <span className="font-handwriting text-lg sm:text-xl text-rose-700 block">
+              Komal ♡
+            </span>
+          </div>
         </motion.div>
 
         {/* Interactive heart button - touch-friendly sizing */}
@@ -306,7 +350,7 @@ export default function Landing() {
           </motion.p>
           
           <p className="text-pink-500/60 text-xs sm:text-sm italic">
-            (Some feelings are too precious to rush)
+            (I put my heart into building this space)
           </p>
         </motion.div>
 

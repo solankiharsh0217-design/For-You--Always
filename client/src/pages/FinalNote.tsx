@@ -67,7 +67,7 @@ export default function FinalNote() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  const fullText = message || "Loving you is not something I do—it's who I am. In every breath, every silence, every tomorrow, it's you. Happy Valentine's Day to the one my heart chose long before I ever understood love.";
+  const fullText = message || "Sometimes words aren't enough to show appreciation, so I wanted to build this special space to celebrate you. You bring so much positive energy, kindness, and light into my life. Thank you for being exactly who you are, and I hope you feel truly appreciated today and every day.";
 
   // Optimized typing effect
   useEffect(() => {
@@ -211,7 +211,7 @@ export default function FinalNote() {
               </div>
 
               <p className="font-handwriting text-xl sm:text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">
-                {signature || "Forever Yours"}
+                {signature || "With admiration and respect"}
               </p>
 
               <motion.div
@@ -223,7 +223,7 @@ export default function FinalNote() {
               >
                 <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-pink-400/60" />
                 <span className="font-serif text-xs sm:text-sm text-gray-500 italic">
-                  Valentine's Day {new Date().getFullYear()}
+                  Just for you • {new Date().getFullYear()}
                 </span>
               </motion.div>
             </motion.div>
@@ -262,11 +262,11 @@ export default function FinalNote() {
             transition={{ duration: 2.5, repeat: Infinity }}
             className="font-handwriting text-base sm:text-lg md:text-xl text-pink-600"
           >
-            Happy Valentine's Day ♡
+            A dedicated space, just for you ♡
           </motion.p>
           
           <p className="text-xs sm:text-sm text-gray-500 italic">
-            Made with love, just for you
+            Made with care, just for you
           </p>
         </motion.div>
       </div>

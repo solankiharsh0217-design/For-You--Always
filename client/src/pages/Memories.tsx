@@ -1,10 +1,34 @@
 import { useMemories } from "@/hooks/use-memories";
 import { PolaroidCard } from "@/components/PolaroidCard";
 import { Loader2, Heart, Sparkles, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { useEffect, memo } from "react";
+import { useEffect, useState, memo } from "react";
 import { type Memory } from "@shared/schema";
+
+const TypewriterText = ({ text }: { text: string }) => {
+  const [displayed, setDisplayed] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    setDisplayed("");
+    const timer = setInterval(() => {
+      if (index >= text.length) {
+        clearInterval(timer);
+        return;
+      }
+      setDisplayed(text.slice(0, index + 1));
+      index++;
+    }, 50);
+    return () => clearInterval(timer);
+  }, [text]);
+
+  return (
+    <p className="font-handwriting text-2xl text-rose-700 leading-tight">
+      {displayed}
+    </p>
+  );
+};
 
 // Memoized loading spinner
 const LoadingSpinner = memo(() => (
@@ -63,6 +87,7 @@ DecorativeSparkle.displayName = "DecorativeSparkle";
 
 export default function Memories() {
   const { data: memories, isLoading } = useMemories();
+  const [selectedMemory, setSelectedMemory] = useState<Memory | null>(null);
 
   // Instant scroll reset
   useEffect(() => {
@@ -77,50 +102,50 @@ export default function Memories() {
   const displayMemories: Memory[] = (memories && memories.length > 0) ? memories : [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&q=80",
+      url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
       type: "image",
-      caption: "The way you smile",
+      caption: "Your positive energy",
       date: "Always",
       rotation: -2
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&q=80",
+      url: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
       type: "image",
-      caption: "Beautiful moments",
-      date: "Spring 2023",
+      caption: "Cozy coffee dates & chats",
+      date: "Cherished moments",
       rotation: 3
     },
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&q=80",
+      url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
       type: "image",
-      caption: "Never letting go",
-      date: "Forever",
+      caption: "Sharing favorite playlists",
+      date: "Musical notes",
       rotation: -4
     },
     {
       id: 4,
-      url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&q=80",
+      url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
       type: "image",
-      caption: "Chasing sunsets",
-      date: "Summer Vacation",
+      caption: "Watching peaceful sunsets",
+      date: "Quiet skies",
       rotation: 2
     },
     {
       id: 5,
-      url: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&q=80",
+      url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80",
       type: "image",
-      caption: "Surprises",
-      date: "Your Birthday",
+      caption: "All the little inside jokes",
+      date: "The small things",
       rotation: 5
     },
     {
       id: 6,
-      url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&q=80",
+      url: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80",
       type: "image",
-      caption: "Coffee dates",
-      date: "Every Weekend",
+      caption: "Building spaces just for you",
+      date: "Real effort",
       rotation: -3
     }
   ] as Memory[];
@@ -258,7 +283,11 @@ export default function Memories() {
                 ease: "easeOut"
               }}
             >
-              <PolaroidCard memory={memory} index={index} />
+              <PolaroidCard 
+                memory={memory} 
+                index={index} 
+                onSelect={() => setSelectedMemory(memory)}
+              />
             </motion.div>
           ))}
         </motion.div>
@@ -336,6 +365,94 @@ export default function Memories() {
           </div>
         </motion.div>
       </div>
+
+      {/* Fullscreen Interactive Lightbox Modal */}
+      <AnimatePresence>
+        {selectedMemory && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+            onClick={() => setSelectedMemory(null)}
+          >
+            {/* Falling flower petals inside the modal */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+              {[...Array(12)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute text-pink-300/40 text-xl pointer-events-none"
+                  initial={{ 
+                    y: -50, 
+                    x: `${10 + Math.random() * 80}%`, 
+                    opacity: 0, 
+                    scale: 0.5 + Math.random() * 0.5,
+                    rotate: 0 
+                  }}
+                  animate={{ 
+                    y: window.innerHeight + 50, 
+                    opacity: [0, 0.7, 0.7, 0],
+                    rotate: 360,
+                    x: [`${10 + Math.random() * 80}%`, `${15 + Math.random() * 70}%`]
+                  }}
+                  transition={{ 
+                    duration: 4 + Math.random() * 4, 
+                    repeat: Infinity,
+                    delay: i * 0.3 
+                  }}
+                >
+                  🌸
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Polaroid Modal Card Container */}
+            <motion.div
+              initial={{ scale: 0.85, y: 50, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.85, y: 50, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 150 }}
+              className="relative bg-white p-5 pb-16 shadow-2xl border border-pink-100 rounded-sm w-full max-w-sm mx-auto pointer-events-auto z-10 cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Tape decoration */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-white/60 backdrop-blur-[1px] shadow-sm transform -rotate-1 skew-x-12 z-20 pointer-events-none" />
+
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedMemory(null)}
+                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-pink-50 hover:bg-pink-100 flex items-center justify-center text-pink-600 hover:text-pink-700 transition-colors cursor-pointer z-30 font-bold"
+              >
+                ✕
+              </button>
+
+              {/* Photo */}
+              <div className="aspect-[4/5] overflow-hidden bg-gray-100 mb-6 border border-gray-100 shadow-inner rounded-xs">
+                <img 
+                  src={selectedMemory.url} 
+                  alt={selectedMemory.caption} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Dynamic Typewritten Caption & Details */}
+              <div className="absolute bottom-4 left-0 right-0 text-center px-6">
+                <TypewriterText text={selectedMemory.caption} />
+                {selectedMemory.date && (
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="font-serif text-xs text-rose-400 mt-1.5 italic"
+                  >
+                    {selectedMemory.date}
+                  </motion.p>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

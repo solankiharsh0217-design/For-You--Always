@@ -4,9 +4,10 @@ import { type Memory } from "@shared/schema";
 interface PolaroidCardProps {
   memory: Memory;
   index: number;
+  onSelect?: () => void;
 }
 
-export function PolaroidCard({ memory, index }: PolaroidCardProps) {
+export function PolaroidCard({ memory, index, onSelect }: PolaroidCardProps) {
   // Generate stable random rotation based on ID if not provided
   const rotation = memory.rotation ?? (
     typeof memory.id === 'number' 
@@ -26,7 +27,8 @@ export function PolaroidCard({ memory, index }: PolaroidCardProps) {
         rotate: 0,
         transition: { duration: 0.2 }
       }}
-      className="relative group bg-white p-4 pb-12 shadow-md hover:shadow-xl transition-shadow duration-300 w-full max-w-xs mx-auto"
+      onClick={onSelect}
+      className="relative group bg-white p-4 pb-12 shadow-md hover:shadow-xl transition-shadow duration-300 w-full max-w-xs mx-auto cursor-pointer"
       style={{ rotate: `${rotation}deg` }}
     >
       <div className="aspect-[4/5] overflow-hidden bg-gray-100 mb-4 border border-gray-100">

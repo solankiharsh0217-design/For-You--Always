@@ -9,6 +9,7 @@ import { useAudio } from "@/hooks/use-audio";
 // Components
 
 import { FloatingHearts } from "@/components/FloatingHearts";
+import { CursorTrail } from "@/components/CursorTrail";
 import { Navigation } from "@/components/Navigation";
 import { PageTransition } from "@/components/PageTransition";
 
@@ -71,6 +72,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="relative min-h-screen overflow-hidden selection:bg-pink-200">
         <FloatingHearts />
+        <CursorTrail />
         <Navigation />
         <AnimatedRoutes />
        <MusicPlayer/>
